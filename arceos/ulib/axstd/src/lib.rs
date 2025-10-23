@@ -76,3 +76,5 @@ pub mod time;
 pub mod fs;
 #[cfg(feature = "net")]
 pub mod net;
+
+use axalloc::GlobalAllocator;
