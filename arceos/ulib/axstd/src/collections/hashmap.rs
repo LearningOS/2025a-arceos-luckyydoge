@@ -85,7 +85,7 @@ impl HashMap {
                 head = node;
             }
         }
-        let mut head = &mut self.bucket[index as usize];
+        let head = &mut self.bucket[index as usize];
         let new_node = Node {
             key: k,
             val: v,
