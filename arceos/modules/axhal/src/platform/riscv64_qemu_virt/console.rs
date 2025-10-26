@@ -6,9 +6,14 @@ pub fn putchar(c: u8) {
     // 重置所有属性（恢复默认颜色）
     const RESET: &[u8] = b"\x1B[0m";
 
-    // 1. 先发送红色控制码（让后续字符显示为红色）
-    for &byte in RED {
-        sbi_rt::legacy::console_putchar(byte as usize);
+    unsafe {
+        // 1. 先发送红色控制码（让后续字符显示为红色）
+        if !SET_RED {
+            SET_RED = true;
+            for &byte in RED {
+                sbi_rt::legacy::console_putchar(byte as usize);
+            }
+        }
     }
 
     sbi_rt::legacy::console_putchar(c as usize);
@@ -27,3 +32,5 @@ pub fn getchar() -> Option<u8> {
         c => Some(c as u8),
     }
 }
+
+static mut SET_RED: bool = false;
