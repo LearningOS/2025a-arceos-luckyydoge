@@ -19,6 +19,8 @@ members = [
     "modules/bump_allocator",
     "modules/riscv_vcpu",
 
+    "axfs_ramfs",
+
     "api/axfeat",
     "api/arceos_api",
     "api/arceos_posix_api",
@@ -94,6 +96,7 @@ axfs_ramfs = { path = "./axfs_ramfs" }
 
 [patch.crates-io]
 kernel_guard = { path = "../crates/kernel_guard"} 
+axfs_ramfs = { path = "./axfs_ramfs" , optional = true }
 
 [profile.release]
 lto = true

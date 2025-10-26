@@ -14,9 +14,9 @@ pub fn putchar(c: u8) {
     sbi_rt::legacy::console_putchar(c as usize);
 
     // 3. 发送重置码（避免后续字符继续保持红色）
-    for &byte in RESET {
-        sbi_rt::legacy::console_putchar(byte as usize);
-    }
+    // for &byte in RESET {
+    //     sbi_rt::legacy::console_putchar(byte as usize);
+    // }
 }
 
 /// Reads a byte from the console, or returns [`None`] if no input is available.

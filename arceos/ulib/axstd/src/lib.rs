@@ -77,4 +77,5 @@ pub mod fs;
 #[cfg(feature = "net")]
 pub mod net;
 
-use alt_axalloc::GlobalAllocator;
+#[cfg(not(feature = "alt_alloc"))]
+use axalloc::GlobalAllocator;

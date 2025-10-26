@@ -70,6 +70,28 @@ impl DirNode {
 }
 
 impl VfsNodeOps for DirNode {
+    fn rename(&self, _old_path: &str, _new_path: &str) -> VfsResult {
+        let (old_name, old_rest) = split_path(_old_path);
+        let (new_name, new_rest) = split_path(_new_path);
+        if let Some(rest) = old_rest {
+            let sub = self
+                .children
+                .read()
+                .get(old_name)
+                .ok_or(VfsError::NotFound)?
+                .clone();
+            if let Some(n) = new_rest {
+                sub.rename(rest, n);
+            }
+        } else {
+            let mut children = self.children.write();
+            let node = children.remove(old_name).ok_or(VfsError::NotFound)?;
+            let (_, name) = _new_path.rsplit_once('/').unwrap();
+            children.insert(name.into(), node);
+        }
+        Ok(())
+    }
+
     fn get_attr(&self) -> VfsResult<VfsNodeAttr> {
         Ok(VfsNodeAttr::new_dir(4096, 0))
     }
